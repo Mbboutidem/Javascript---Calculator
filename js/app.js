@@ -1,78 +1,56 @@
-function getHistory() {
-    return document.getElementById("history-value").innerText;
-}
-//alert("history-value");
-
-function printHistory(num)
-{
-    document.getElementById("history-value").innerText = num;
-}
-function getOutput()
-{
-   return  document.getElementById("output-value").innerText;
-}
-
-function printOutput(num)
-{
-    //condition to clear the values
-    if(num == "")
+class Calculator {
+    constructor(previousOperandTextElement, currentOperandTextElement)
     {
-        document.getElementById("output-value").innerText = num;
-    } else {
-        document.getElementById("output-value").innerText = getFormattedNumber(num);
+        this.currentOperandTextElement = currentOperandTextElement
+        this.previousOperandTextElement = previousOperandTextElement
+    }
+        
+    
+    clearValues()
+    {
+        this.currentOperand = "";
+        this.previousOperand = "";
+        this.operation = undefined;
+
+    }
+
+    delet()
+    {
+
+    }
+    appendNumber(number)
+    {
+    
+        this.currentOperand =  this.currentOperand.toString() + number.toString();
+
+    }
+    chooseOperation(operator)
+    {
+
+    }
+    compute()
+    {
+
+    }
+    updateDisplay()
+    {
+        this.currentOperandTextElement.innerText = this.currentOperand;
+
     }
 }
-//this function get a number and format it
-function getFormattedNumber(num)
-{
-    var n = Number(num);
-    var value = n.toLocaleString("en");
-    return value;
+const numberButtons = document.querySelectorAll("[data-number]");
+const operationButtons = document.querySelectorAll("[data-operation]");
+const equalsButton = document.querySelector("[data-equals]");
+const deleteButton = document.querySelector("[data-delete]");
+const allClearButton = document.querySelector("[data-all-clear]");
+const previousOperandTextElement = document.querySelector("[data-previous-operand]");
+const currentOperandTextElement = document.querySelector("[data-current-operand]");
 
-}
-//printOutput("45454588");
-function reverseNumformat(num)
-{
-   return Number(num.replace(/, /g, '')); 
-}
-//alert(reverseNumformat(getOutput()))
+const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
-var operator = document.getElementsByClassName("operator");
-{
-    for(var i = 0; i<operator.length; i++)
-    {
-        operator[i].addEventListener('click', function(){
-            //alert("the operator clicked: " + this.id)
-            //for backspace
-            if(this.id == "claer")
-            {
-                printHistory("");
-                printOutput("")
-            }
-            if(this.id == "backspace"){
-                var output = reverseNumformat(getOutput).toString();
-                if(output){
-                    output = output.substr(0, output.length-1);
-                    printOutput(output);
-                }
-            }
-
-        });
-    }
-}
-//
-var number = document.getElementsByClassName("number");
-{
-    for(var i = 0; i<number.length; i++)
-    {
-        number[i].addEventListener('click', function(){
-           // alert("the number clicked: " + this.id)
-           var output = reverseNumformat(getOutput());
-           if(output != NaN){
-               output = output+this.id;
-               printOutput(output);
-           }
-
-        });
-    }
-}
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.appendNumber(button.innerText);
+        calculator.updateDisplay();
+    })
+})
